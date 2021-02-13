@@ -13,8 +13,10 @@ class BakeryApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
     void contextLoads() {
+        String smth = "";
     }
 
 }
