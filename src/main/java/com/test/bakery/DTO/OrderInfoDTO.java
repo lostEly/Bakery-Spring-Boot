@@ -3,8 +3,6 @@ package com.test.bakery.DTO;
 import lombok.Data;
 
 @Data
-public class BasketDTO {
+public class OrderInfoDTO {
     private String login;
-    private Long productId;
-    private int amount;
 }

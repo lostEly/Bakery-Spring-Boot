@@ -17,6 +17,7 @@ public class OrderToProduct {
     Long otpId;
 
     int amount;
+    Double cost;
 
     @ManyToOne
     @JoinColumn(name="order_id")

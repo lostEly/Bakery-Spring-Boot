@@ -17,10 +17,14 @@ public class Product {
     String productName;
     Double price;
     String description;
+
+    Integer count;
+
     @Column(columnDefinition = "text")
     String image;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
 }

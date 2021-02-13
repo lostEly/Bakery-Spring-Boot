@@ -2,7 +2,6 @@ package com.test.bakery.model;
 
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -24,4 +23,13 @@ public class Order {
     private Status status;
 
 
+    @ManyToOne
+    @JoinColumn(name = "userr_id")
+    private Userr userr;
+
+    public Order() {
+        this.dateOfOrder = new Date();
+        this.status = new Status();
+        this.status.setStatusId(2L); // по дефолту установить статус как новый
+    }
 }

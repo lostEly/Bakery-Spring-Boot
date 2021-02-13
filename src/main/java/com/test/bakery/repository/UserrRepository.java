@@ -7,15 +7,18 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserrRepository extends JpaRepository<Userr, Long> {
     @Query(value="SELECT * from userr", nativeQuery = true)
     List<Userr> getAllUsers();
 
-    Userr findByLogin(String login);
+    Optional<Userr> findByLogin(String login);
+
+    Optional<Userr> findByEmail (String email);
 
     @Query(value="select * from userr where userr_id = :id", nativeQuery=true)
-    Userr findByUserrId(@Param("id") Long id);
+    Optional<Userr> findByUserrId(@Param("id") Long id);
 
 }

@@ -30,6 +30,12 @@ public class Userr {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    public Userr() {
+        this.setEnabled(false);
+    }
+
     private String email;
+
+    private Boolean enabled;
 
 }

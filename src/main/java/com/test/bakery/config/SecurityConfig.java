@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .csrf().disable()
+                .cors().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -32,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/moderator/*").hasRole("MODERATOR")
                 //@TODO
                 //после добавления юзера профиля раскоментить
-//                .antMatchers("/api/index/*").hasRole("USER")
+                .antMatchers("/api/index/*").permitAll()
 //                .antMatchers("/api/*").hasRole("ADMIN")
                 .antMatchers("/register", "/auth").permitAll()
                 .and()
