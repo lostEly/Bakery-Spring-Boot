@@ -71,17 +71,4 @@ class AdminControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void deleteProduct() throws Exception {
-        long productId = 1L;
-        mockMvc.perform(MyTestRequestFactory.myFactoryDeleteRequest("http://localhost:8080/admin/" + productId)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-        assertFalse(productRepository.findByProductId(productId).isPresent());
-
-    }
-
-    @Test
-    void exportToExcel() {
-    }
 }

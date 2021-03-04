@@ -26,5 +26,10 @@ public class IndexController {
         return productService.findAll();
     }
 
+    @GetMapping("{name}")
+    public Product getProductByName(@PathVariable (value = "name") String name) {
+        return productService.getByProductName(name);
+    }
+
 }
 

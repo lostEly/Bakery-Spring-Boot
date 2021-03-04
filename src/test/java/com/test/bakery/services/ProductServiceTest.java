@@ -1,10 +1,8 @@
 package com.test.bakery.services;
 
+import com.test.bakery.DTO.AddProductDTO;
 import com.test.bakery.exceptions.ResourceNotFoundException;
-import com.test.bakery.model.Order;
-import com.test.bakery.model.OrderToProduct;
-import com.test.bakery.model.Product;
-import com.test.bakery.model.Userr;
+import com.test.bakery.model.*;
 import com.test.bakery.repository.CategoryRepository;
 import com.test.bakery.repository.OrderRepository;
 import com.test.bakery.repository.OrderToProductRepository;
@@ -43,11 +41,8 @@ class ProductServiceTest {
     @MockBean
     private  UserService userService;
 
-    @MockBean
-    private  CategoryRepository categoryRepository;
-
     @Test
-    void findByProductName() {
+    void findByProductName_ShouldReturnProduct() {
         Product product = new Product();
         Optional<Product> prod = Optional.of(product);
         Mockito.doReturn(prod)
@@ -55,9 +50,14 @@ class ProductServiceTest {
                 .findByProductName(anyString());
         assertSame(Product.class, productService.getByProductName(anyString()).getClass());
     }
+    @Test
+    void findByProductName_FailTest()
+    {
+        assertThrows(ResourceNotFoundException.class, ()->productService.getByProductName(null));
+    }
 
     @Test
-    void findAll() {
+    void findAll_ShouldReturnListOfProducts() {
         assertNotNull(productService.findAll());
         Mockito.verify(productRepository, Mockito.times(1)).findAll();
     }
@@ -88,10 +88,6 @@ class ProductServiceTest {
         Mockito.verify(orderToProductRepository, Mockito.times(1)).delete(otp);
     }
 
-    /**
-     * Test method with given login.
-     * Return null because OrderId AutoGenerates after save method,
-     */
     @Test
     void getOrderInfo_LoginGiven_ShouldReturnNewOrderId() {
         Userr userr = new Userr();
@@ -120,30 +116,21 @@ class ProductServiceTest {
 
     @Test
     void addProductToBasket() {
-        Order order = new Order();
-        Optional<Order> optionalOrder = Optional.of(order);
-        Mockito.doReturn(optionalOrder)
-                .when(orderRepository)
-                .findById(anyLong());
+
+        ProductService productService1 = Mockito.spy(productService);
         Product product = new Product();
-        Optional<Product> optionalProduct = Optional.of(product);
-        Mockito.doReturn(optionalProduct)
-                .when(productRepository)
-                .findById(anyLong());
+        Mockito.doReturn(product)
+                .when(productService1)
+                .getProductByProductId(anyLong());
+        Order order = new Order();
+        Mockito.doReturn(order)
+                .when(productService1)
+                .findOrderByOrderId(anyLong());
         List<OrderToProduct> list = Collections.singletonList(new OrderToProduct());
         Mockito.doReturn(list)
                 .when(orderToProductRepository)
                 .findAllByOrderOrderId(anyLong());
-        assertEquals(1, productService.addProductToBasket(1L, 1L, 5));
-    }
-
-    @Test
-    void updateOTP() {
-
-    }
-
-    @Test
-    void updateOrder() {
+        assertEquals(1, productService1.addProductToBasket(1L, 1L, 5));
     }
 
     @Test
@@ -156,15 +143,4 @@ class ProductServiceTest {
         assertSame(Product.class, productService.getProductByProductId(1L).getClass());
     }
 
-    @Test
-    void editProduct() {
-    }
-
-    @Test
-    void deleteProduct() {
-    }
-
-    @Test
-    void addProduct() {
-    }
 }

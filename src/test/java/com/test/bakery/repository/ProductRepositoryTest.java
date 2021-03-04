@@ -25,24 +25,8 @@ class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
-    @BeforeAll
-    static void beforeAll() {
-
-    }
-
     @Test
     void findByProductName() {
-//        Product product = new Product();
-//        product.setProductName("testName");
-//        product.setDescription("testDescription");
-//        product.setImage("https://www.lanworks.com/wp-content/uploads/2017/02/test-button-1024x1024.png");
-//        product.setPrice(5d);
-//        product.setCategory(categoryRepository.findByCategoryName("Bread"));
-//        product.setCount(1);
-//        productRepository.save(product);
-
-//        assertNotNull(product);
-//            assertTrue(product.getProductId()>0);
         Optional<Product> prod = productRepository.findByProductName("product_name");
         assertTrue(prod.isPresent());
         assertEquals("description", prod.get().getDescription());

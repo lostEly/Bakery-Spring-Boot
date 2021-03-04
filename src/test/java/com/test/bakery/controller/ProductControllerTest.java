@@ -52,7 +52,7 @@ class ProductControllerTest {
     @Order(1)
     void getProductByName() throws Exception {
         String name = "product_name";
-        mockMvc.perform(MyTestRequestFactory.myFactoryRequest("http://localhost:8080/api/index/" + name)
+        mockMvc.perform(MyTestRequestFactory.myFactoryRequest("http://localhost:8080/index/" + name)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(content().contentType("application/json"))
@@ -61,20 +61,12 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.description").value("description"))
                 .andExpect(jsonPath("$.count").value("1"));
         System.out.println("getProductByName");
-//
-//        String name = "asd";
-//        HttpUriRequest request = new HttpGet( "http://localhost:8080/api/index/" + name );
-//        HttpResponse httpResponse = HttpClientBuilder.create().build().execute( request );
-//        assertEquals(HttpStatus.SC_NOT_FOUND,
-//                httpResponse.getStatusLine().getStatusCode());
-//
-//        RequestEntity<?> req;
     }
 
     @Test
     @Order(2)
     void getAllProducts() throws Exception {
-        mockMvc.perform(MyTestRequestFactory.myFactoryRequest("http://localhost:8080/api/index")
+        mockMvc.perform(MyTestRequestFactory.myFactoryRequest("http://localhost:8080/index/")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$[0].productId").value(1))
@@ -87,7 +79,7 @@ class ProductControllerTest {
     @Test
     @Order(3)
     void addProductToBasket() throws Exception {
-        mockMvc.perform(MyTestRequestFactory.myFactoryPostRequest("http://localhost:8080/api/index")
+        mockMvc.perform(MyTestRequestFactory.myFactoryPostRequest("http://localhost:8080/user/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"login\" : \"admin1\", \"productId\" : \"1\", \"amount\" : \"5\"}"))
                 .andExpect(status().isOk())
@@ -98,7 +90,7 @@ class ProductControllerTest {
     @Test
     @Order(4)
     void updateOtp() throws Exception {
-        mockMvc.perform(MyTestRequestFactory.myFactoryPutRequest("http://localhost:8080/api/index/cart")
+        mockMvc.perform(MyTestRequestFactory.myFactoryPutRequest("http://localhost:8080/user/cart")
                 .contentType(MediaType.APPLICATION_JSON)
         .content("{\"products\" : [ {\"productId\" : \"1\", \"description\" : \"description\", \"price\" : \"555\", \"productName\" : \"product_name\", \"categoryId\" : \"1\",\n" +
                 " \"image\" : \"https://www.lanworks.com/wp-content/uploads/2017/02/test-button-1024x1024.png\", \"count\" : \"5\"} ]," +
@@ -112,8 +104,7 @@ class ProductControllerTest {
     @Test
     @Order(5)
     void deleteOtp() throws Exception {
-
-        mockMvc.perform(MyTestRequestFactory.myFactoryDeleteRequest("http://localhost:8080/api/index/cart")
+        mockMvc.perform(MyTestRequestFactory.myFactoryDeleteRequest("http://localhost:8080/user/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"login\" : \"admin1\", \"productId\" : \"1\"}"))
                 .andExpect(status().isOk())

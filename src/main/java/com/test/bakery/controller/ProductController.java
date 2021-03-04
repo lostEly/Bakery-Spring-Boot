@@ -26,11 +26,6 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("{name}")
-    public Product getProductByName(@PathVariable (value = "name") String name) {
-            return productService.getByProductName(name);
-    }
-
     /**
      * @return amount of products in a basket
      */
@@ -52,12 +47,12 @@ public class ProductController {
     }
 
     //@TODO
-    //Вместо спика продуктов передавать мапу из продактИД - продактЭмаунт
+    //Вместо спика продуктов передавать мапу из продактИД - prodAmount
     /**
      * Order's status becomes "Ongoing" and sets total price
      */
     @PutMapping("cart")
-    public Order updateOtp(@RequestBody UpdateOTP updateOTP)
+    public Order makeOrder(@RequestBody UpdateOTP updateOTP)
     {
         Long orderId = productService.getOrderInfo(updateOTP.getLogin());
         return productService.updateOTP(updateOTP.getProducts(), orderId, updateOTP.getTotalPrice());

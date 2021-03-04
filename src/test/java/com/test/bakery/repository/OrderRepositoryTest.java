@@ -13,8 +13,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@Transactional(propagation = Propagation.NOT_SUPPORTED)
 @ActiveProfiles("test")
 @Sql(value = {"/create-user-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = {"/create-order-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -28,7 +26,6 @@ class OrderRepositoryTest {
 
     @Test
     void getAllByUserr_UserrId() {
-
         List<Order> list = orderRepository.findAllByUserr_UserrId(1L);
         System.out.println(list.isEmpty());
         assertFalse(list.isEmpty());

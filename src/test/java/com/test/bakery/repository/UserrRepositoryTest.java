@@ -16,8 +16,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@Transactional(propagation = Propagation.NOT_SUPPORTED)
 @ActiveProfiles("test")
 @Sql(value = {"/create-user-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = {"/create-user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -36,7 +34,6 @@ class UserrRepositoryTest {
     @Test
     void findByLogin() {
         Optional<Userr> userr = userrRepository.findByLogin("test_login");
-//        System.out.println(userr.isPresent() );
         assertTrue(userr.isPresent());
     }
 

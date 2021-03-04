@@ -20,17 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class CategoryRepositoryTest {
 
     @Autowired
-    private TestEntityManager entityManager;
-
-    @Autowired
     private CategoryRepository categoryRepository;
 
     @Test
     void findByCategoryName() {
-//        Category cat = new Category();
-//        cat.setCategoryName("test");
-//        entityManager.persist(cat);
-//        entityManager.flush();
         Category category = categoryRepository.findByCategoryName("Bread");
         assertNotNull(category);
         assertEquals("Bread", category.getCategoryName());

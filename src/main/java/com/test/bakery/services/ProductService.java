@@ -8,13 +8,10 @@ import com.test.bakery.repository.OrderToProductRepository;
 import com.test.bakery.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.test.bakery.exceptions.ResourceNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -32,7 +29,7 @@ public class ProductService {
         this.userService = userService;
         this.categoryRepository = categoryRepository;
     }
-    private Order findOrderByOrderId(Long orderId)
+    public Order findOrderByOrderId(Long orderId)
     {
         return orderRepository.findOrderByOrderId(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order with orderId " + orderId));

@@ -6,6 +6,7 @@ import com.test.bakery.model.Userr;
 import com.test.bakery.model.VerificationToken;
 import com.test.bakery.repository.UserrRepository;
 import com.test.bakery.repository.VerificationTokenRepository;
+import com.test.bakery.security_controller.RegisterResponse;
 import com.test.bakery.security_controller.RegistrationRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -42,33 +43,6 @@ class UserServiceTest {
     @MockBean
     SendEmailService sendEmailService;
 
-//    @Test
-//    void saveUser_UserObjectGiven_ShouldReturnTrue()  {
-//        Userr userr = new Userr();
-//        assertTrue(userService.saveUser(userr));
-//        assertEquals("ROLE_USER", userr.getRole().getRoleName());
-//        Mockito.verify(userrRepository, Mockito.times(1)).findByLogin(userr.getLogin());
-//        Mockito.verify(userrRepository, Mockito.times(1)).save(userr);
-//        Mockito.verify(passwordEncoder, Mockito.times(1))
-//                .encode(ArgumentMatchers.eq(userr.getPassword()));
-//    }
-
-//    @Test
-//    void saveUser_ExistingUserGiven_ShouldReturnFalse() {
-//        Userr userr = new Userr();
-//        userr.setLogin("John");
-//        Optional<Userr> us = Optional.of(new Userr());
-//        Mockito.doReturn(us)
-//                .when(userrRepository)
-//                .findByLogin("John");
-//        boolean isUserCreated = userService.saveUser(userr);
-//        assertFalse(isUserCreated);
-//        Mockito.verify(userrRepository, Mockito.times(1)).findByLogin(userr.getLogin());
-//        Mockito.verify(userrRepository, Mockito.times(0)).save(ArgumentMatchers.any(Userr.class));
-//        Mockito.verify(passwordEncoder, Mockito.times(0))
-//                .encode(ArgumentMatchers.eq(userr.getPassword()));
-//    }
-
     @Test
     void getAllUsers_ShouldReturnListOfUsers() {
         assertNotNull(userService.getAllUsers());
@@ -84,7 +58,7 @@ class UserServiceTest {
         Mockito.doReturn(vt)
                 .when(verificationTokenRepository)
                 .findByToken(token);
-        assertEquals("OK", userService.confirmUserrAccount(token));
+        assertSame(RegisterResponse.class, userService.confirmUserrAccount(token).getClass());
         assertNotNull(vt.get().getUser());
         assertTrue(vt.get().getUser().getEnabled());
         Mockito.verify(verificationTokenRepository, Mockito.times(1)).findByToken(anyString());
@@ -136,29 +110,4 @@ class UserServiceTest {
                 .findByLogin(anyString());
         assertNull(userService2.findByLoginAndPassword("", ""));
     }
-
-    @Test
-    void saveModer() {
-    }
-
-    @Test
-    void saveAdmin() {
-    }
 }
-//    @Test
-//    void registerUser_RegistrationRequestGiven_ShouldRegisterUserr() throws MessagingException {
-//        RegistrationRequest registrationRequest = new RegistrationRequest();
-//        registrationRequest.setEmail("");
-//        registrationRequest.setLogin("");
-//        UserService userService2 = Mockito.spy(userService);
-//        Mockito.doReturn(true)
-//                .when(userService2)
-//                .saveUser(new Userr());
-//        userService.registerUser(registrationRequest);
-//        Mockito.verify(sendEmailService, Mockito.times(1)).sendEmail(anyString(), anyString());
-//    }
-//}
-//    @Test
-//    void registerUser_BadRegistrationRequestGiven_ShouldRegisterUserr() throws MessagingException {
-//
-//    }
