@@ -1,0 +1,1 @@
+delete verification_token;

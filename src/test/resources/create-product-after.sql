@@ -1,0 +1,2 @@
+delete product;
+delete category;
