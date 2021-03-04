@@ -1,7 +1,6 @@
-package com.test.bakery.mailcfg;
+package com.test.bakery.mail_cfg;
 
 import com.test.bakery.exceptions.ResourceNotFoundException;
-import com.test.bakery.model.Status;
 import com.test.bakery.model.VerificationToken;
 import com.test.bakery.repository.UserrRepository;
 import com.test.bakery.repository.VerificationTokenRepository;
@@ -31,7 +30,7 @@ public class SendEmailService {
     public void sendEmail(String to, String topic) throws MessagingException {
         String token = createToken(to);
         Context context = new Context();
-        context.setVariable("token", "http://localhost:3000/registration-complete?token=" + token);
+        context.setVariable("token", "http://localhost:8080/registration-complete?token=" + token); // http://localhost:3000/
         String process = templateEngine.process("tst", context);
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
@@ -50,13 +49,9 @@ public class SendEmailService {
         return verificationToken.getToken();
     }
 
-
     /* создается токен
     при регистрации юзера токен отправляется на почту в виде ссылки на страницу с подтверждением
     длительность токена 24 часа
     после истечения токена ????????????
-    во фронте пишется чекайте почту и подтверждайте акк
-    при переходе по ссылке enabled = true
-    перекидывает на главную страницу и все збс
     */
 }

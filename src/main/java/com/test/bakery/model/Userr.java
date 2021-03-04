@@ -38,4 +38,13 @@ public class Userr {
 
     private Boolean enabled;
 
+    public Userr(String userrName, String userrLastName, String login, String password, Role role, String email, Boolean enabled) {
+        this.userrName = userrName;
+        this.userrLastName = userrLastName;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+        this.enabled = enabled;
+    }
 }

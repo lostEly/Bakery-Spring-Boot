@@ -1,7 +1,7 @@
 package com.test.bakery.config;
 
 import com.test.bakery.model.Userr;
-import com.test.bakery.service.UserService;
+import com.test.bakery.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

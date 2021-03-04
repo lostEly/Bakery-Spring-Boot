@@ -12,16 +12,26 @@ import javax.persistence.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long productId;
-
-    String productName;
-    Double price;
-    String description;
-
-    Integer count;
+    private Long productId;
+    private String productName;
+    private Double price;
+    private String description;
+    private Integer count;
 
     @Column(columnDefinition = "text")
-    String image;
+    private String image;
+
+    public Product() {
+    }
+
+    public Product(String productName, Double price, String description, Integer count, String image, Category category) {
+        this.productName = productName;
+        this.price = price;
+        this.description = description;
+        this.count = count;
+        this.image = image;
+        this.category = category;
+    }
 
     @ManyToOne
     @JoinColumn(name = "category_id")

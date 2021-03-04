@@ -19,6 +19,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<?> userAlreadyExistsHandling(UserAlreadyExistsException exception, WebRequest request){
+        ErrorDetails errorDetails =
+                new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccountIsNotConfirmed.class)
+    public ResponseEntity<?> AccountIsNotConfirmed(AccountIsNotConfirmed exception, WebRequest request){
+        ErrorDetails errorDetails =
+                new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+
     // handling global exception
 
     @ExceptionHandler(Exception.class)

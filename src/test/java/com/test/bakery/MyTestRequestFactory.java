@@ -17,4 +17,9 @@ public class MyTestRequestFactory {
         return MockMvcRequestBuilders.delete(url)
                 .header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJleHAiOjE2MTM3NzIwMDB9.pgzWPz33BRRG0MtOiiT217jS9j0jiuVXQB7KYPx6zzUB36QoZ2Qb7OhV2_BRJYbjz6XkaLB_lOK-Lek7zgLAiA");
     }
+
+    public static MockHttpServletRequestBuilder myFactoryPutRequest(String url) {
+        return MockMvcRequestBuilders.put(url)
+                .header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJleHAiOjE2MTM3NzIwMDB9.pgzWPz33BRRG0MtOiiT217jS9j0jiuVXQB7KYPx6zzUB36QoZ2Qb7OhV2_BRJYbjz6XkaLB_lOK-Lek7zgLAiA");
+    }
 }

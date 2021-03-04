@@ -27,5 +27,13 @@ public class OrderToProduct {
     @JoinColumn(name="product_id")
     Product product;
 
+    public OrderToProduct(int amount, Double cost, Order order, Product product) {
+        this.amount = amount;
+        this.cost = cost;
+        this.order = order;
+        this.product = product;
+    }
 
+    public OrderToProduct() {
+    }
 }

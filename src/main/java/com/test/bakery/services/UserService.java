@@ -1,13 +1,15 @@
-package com.test.bakery.service;
+package com.test.bakery.services;
 
 import com.test.bakery.exceptions.ResourceNotFoundException;
-import com.test.bakery.mailcfg.SendEmailService;
+import com.test.bakery.exceptions.UserAlreadyExistsException;
+import com.test.bakery.mail_cfg.SendEmailService;
 import com.test.bakery.model.Role;
 import com.test.bakery.model.Userr;
 import com.test.bakery.model.VerificationToken;
 import com.test.bakery.repository.RoleRepository;
 import com.test.bakery.repository.UserrRepository;
 import com.test.bakery.repository.VerificationTokenRepository;
+import com.test.bakery.security_controller.RegisterResponse;
 import com.test.bakery.security_controller.RegistrationRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,28 +35,41 @@ public class UserService {
         this.sendEmailService = sendEmailService;
     }
 
-
-    public boolean saveUser(Userr userr) {
-        boolean userrFromDB = userRepository.findByLogin(userr.getLogin()).isPresent();
-        if (userrFromDB) return false;
-        Role userRole = roleRepository.findByRoleName("ROLE_USER");
+    public void registerUser(RegistrationRequest registrationRequest, String role) {
+        boolean userrFromDB = userRepository.findByLogin(registrationRequest.getLogin()).isPresent();
+        if (userrFromDB)
+            throw new UserAlreadyExistsException("User with login: " + registrationRequest.getLogin() + " already exists");
+        Userr userr = new Userr(registrationRequest.getUserName(),
+                registrationRequest.getUserLastName(),
+                registrationRequest.getLogin(),
+                passwordEncoder.encode(registrationRequest.getPassword()),
+                null, registrationRequest.getEmail(), false);
+        Role userRole;
+        if (role.equals("user")) {
+            userRole = roleRepository.findByRoleName("ROLE_USER");
+        } else {
+            userRole = roleRepository.findByRoleName("ROLE_ADMIN");
+        }
         userr.setRole(userRole);
-        userr.setPassword(passwordEncoder.encode(userr.getPassword()));
         userRepository.save(userr);
-        return true;
+        try {
+            sendEmailService.sendEmail(registrationRequest.getEmail(), "Registration confirmation");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Userr> getAllUsers() {
         return userRepository.getAllUsers();
     }
 
-    public String completing(String token) {
+    public RegisterResponse confirmUserrAccount(String token) {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token)
                 .orElseThrow(() -> new ResourceNotFoundException("VerificationToken with token " + token + " not found"));
         Userr userr = verificationToken.getUser();
         userr.setEnabled(true);
         userRepository.save(userr);
-        return "OK";
+        return new RegisterResponse("Account confirmation complete!");
     }
 
     public Userr findByLogin(String login) {
@@ -69,38 +84,5 @@ public class UserService {
         }
         return null;
     }
-
-    public void saveModer(Userr userr) {
-        Role userRole = roleRepository.findByRoleName("ROLE_MODERATOR");
-        userr.setRole(userRole);
-        userr.setPassword(passwordEncoder.encode(userr.getPassword()));
-        userr.setEnabled(true);
-        userRepository.save(userr);
-    }
-
-    public void saveAdmin(Userr userr) {
-        Role userRole = roleRepository.findByRoleName("ROLE_ADMIN");
-        userr.setRole(userRole);
-        userr.setPassword(passwordEncoder.encode(userr.getPassword()));
-        userr.setEnabled(true);
-        userRepository.save(userr);
-    }
-
-    public void registerUser(RegistrationRequest registrationRequest) {
-        Userr u = new Userr();
-        u.setPassword(registrationRequest.getPassword());
-        u.setLogin(registrationRequest.getLogin());
-        u.setUserrName(registrationRequest.getUserName());
-        u.setUserrLastName((registrationRequest.getUserLastName()));
-        u.setEmail(registrationRequest.getEmail());
-        if (saveUser(u)) {
-            try {
-                sendEmailService.sendEmail(registrationRequest.getEmail(), "Registration confirmation");
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
 }

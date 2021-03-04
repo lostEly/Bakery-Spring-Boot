@@ -1,4 +1,4 @@
-package com.test.bakery.mailcfg;
+package com.test.bakery.mail_cfg;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

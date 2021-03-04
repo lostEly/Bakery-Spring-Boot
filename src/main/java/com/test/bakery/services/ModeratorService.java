@@ -1,4 +1,4 @@
-package com.test.bakery.service;
+package com.test.bakery.services;
 
 import com.test.bakery.repository.UserrRepository;
 import org.springframework.stereotype.Service;

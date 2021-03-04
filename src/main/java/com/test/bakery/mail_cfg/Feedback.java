@@ -1,4 +1,4 @@
-package com.test.bakery.mailcfg;
+package com.test.bakery.mail_cfg;
 
 import com.test.bakery.model.Status;
 import lombok.Data;

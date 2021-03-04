@@ -1,4 +1,4 @@
-package com.test.bakery.service;
+package com.test.bakery.services;
 
 import com.test.bakery.exceptions.ResourceNotFoundException;
 import com.test.bakery.model.Order;
@@ -9,7 +9,6 @@ import com.test.bakery.repository.CategoryRepository;
 import com.test.bakery.repository.OrderRepository;
 import com.test.bakery.repository.OrderToProductRepository;
 import com.test.bakery.repository.ProductRepository;
-import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -54,7 +53,7 @@ class ProductServiceTest {
         Mockito.doReturn(prod)
                 .when(productRepository)
                 .findByProductName(anyString());
-        assertSame(Product.class, productService.findByProductName(anyString()).getClass());
+        assertSame(Product.class, productService.getByProductName(anyString()).getClass());
     }
 
     @Test
@@ -74,12 +73,12 @@ class ProductServiceTest {
         Mockito.doReturn(orderToProduct)
                 .when(orderToProductRepository)
                 .findByOrder_OrderIdAndProduct_ProductId(anyLong(),anyLong());
-        assertSame(OrderToProduct.class, productService.findByOrderOrderIdAndProductProductId(anyLong(),anyLong()).getClass());
+        assertSame(OrderToProduct.class, productService.getByOrderOrderIdAndProductProductId(anyLong(),anyLong()).getClass());
     }
 
     @Test
     void findByOrderOrderIdAndProductProductId_ShouldReturnResourceNotFoundException() {
-        assertThrows(ResourceNotFoundException.class, () -> productService.findByOrderOrderIdAndProductProductId(null, null));
+        assertThrows(ResourceNotFoundException.class, () -> productService.getByOrderOrderIdAndProductProductId(null, null));
     }
 
     @Test
@@ -102,7 +101,7 @@ class ProductServiceTest {
         List<Order> list = Collections.emptyList();
         Mockito.doReturn(list)
                 .when(orderRepository)
-                .getAllByUserr_UserrId(anyLong());
+                .findAllByUserr_UserrId(anyLong());
         assertNull(productService.getOrderInfo(anyString()));
     }
 
@@ -115,7 +114,7 @@ class ProductServiceTest {
         List<Order> list = Collections.singletonList(new Order());
         Mockito.doReturn(list)
                 .when(orderRepository)
-                .getAllByUserr_UserrId(anyLong());
+                .findAllByUserr_UserrId(anyLong());
         assertNull(productService.getOrderInfo(anyString()));
     }
 
@@ -158,8 +157,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void changeProduct() {
-
+    void editProduct() {
     }
 
     @Test

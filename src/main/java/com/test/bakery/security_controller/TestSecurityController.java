@@ -19,5 +19,4 @@ public class TestSecurityController {
     public String getModerator() {
         return "Hi moder";
     }
-
 }
