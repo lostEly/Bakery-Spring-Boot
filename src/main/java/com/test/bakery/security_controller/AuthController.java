@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.*;
 import javax.validation.Valid;
 
-/**
- * @author lostEly
- * @version 1.0
- */
-
 @RestController
 @CrossOrigin("*")
 public class AuthController {

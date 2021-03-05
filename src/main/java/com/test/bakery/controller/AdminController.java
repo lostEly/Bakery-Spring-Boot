@@ -2,11 +2,15 @@ package com.test.bakery.controller;
 
 
 import com.test.bakery.DTO.AddProductDTO;
+import com.test.bakery.DTO.EditOrderStatusDTO;
 import com.test.bakery.excel_cfg.ExcelUserExporter;
+import com.test.bakery.model.Order;
 import com.test.bakery.model.Product;
 import com.test.bakery.model.Userr;
 import com.test.bakery.services.ProductService;
 import com.test.bakery.services.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/")
@@ -41,6 +46,17 @@ public class AdminController {
     @PostMapping("add-product")
     public Product addProduct(@RequestBody AddProductDTO product){
         return productService.addProduct(product);
+    }
+
+    @GetMapping("user-info")
+    public Map<Userr, List<Order>> getUserInfo() {
+        return userService.getUsersInfo();
+    }
+
+    @PostMapping("user-info")
+    public ResponseEntity<String> editOrderStatus(@RequestBody EditOrderStatusDTO  edit) {
+        userService.editOrderStatus(edit.getOrderStatusMap());
+        return ResponseEntity.status(HttpStatus.OK).body("Edited successfully");
     }
 
     @GetMapping("users/export/excel")

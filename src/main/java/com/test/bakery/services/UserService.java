@@ -3,36 +3,44 @@ package com.test.bakery.services;
 import com.test.bakery.exceptions.ResourceNotFoundException;
 import com.test.bakery.exceptions.UserAlreadyExistsException;
 import com.test.bakery.mail_cfg.SendEmailService;
+import com.test.bakery.model.Order;
 import com.test.bakery.model.Role;
 import com.test.bakery.model.Userr;
 import com.test.bakery.model.VerificationToken;
-import com.test.bakery.repository.RoleRepository;
-import com.test.bakery.repository.UserrRepository;
-import com.test.bakery.repository.VerificationTokenRepository;
+import com.test.bakery.repository.*;
 import com.test.bakery.security_controller.RegisterResponse;
 import com.test.bakery.security_controller.RegistrationRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
 
+    Logger logger = LoggerFactory.getLogger(UserService.class);
     private final UserrRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final VerificationTokenRepository verificationTokenRepository;
     private final SendEmailService sendEmailService;
+    private final OrderRepository orderRepository;
+    private final StatusRepository statusRepository;
 
     public UserService(UserrRepository userEntityRepository, RoleRepository roleRepository,
-                       PasswordEncoder passwordEncoder, VerificationTokenRepository verificationTokenRepository, SendEmailService sendEmailService) {
+                       PasswordEncoder passwordEncoder, VerificationTokenRepository verificationTokenRepository, SendEmailService sendEmailService, OrderRepository orderRepository, StatusRepository statusRepository) {
         this.userRepository = userEntityRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.verificationTokenRepository = verificationTokenRepository;
         this.sendEmailService = sendEmailService;
+        this.orderRepository = orderRepository;
+        this.statusRepository = statusRepository;
     }
 
     public void registerUser(RegistrationRequest registrationRequest, String role) {
@@ -83,6 +91,31 @@ public class UserService {
             return userr;
         }
         return null;
+    }
+
+    public Map<Userr,List<Order>> getUsersInfo()
+    {
+        List<Userr> list = this.getAllUsers();
+        List<Order> orderList;
+        Map<Userr, List<Order>> map = new HashMap<>();
+        for (Userr userr : list) {
+            orderList = orderRepository.findAllOngoingOrders(userr.getUserrId(), 3L);
+            map.put(userr, orderList);
+        }
+        logger.info(map.toString());
+        return map;
+    }
+
+    public void editOrderStatus(Map<Long, String> orderStatusMap)
+    {
+        for (Map.Entry<Long, String> longStringEntry : orderStatusMap.entrySet()) {
+            Order order = orderRepository.findOrderByOrderId(longStringEntry.getKey()).orElseThrow(
+                    () -> new ResourceNotFoundException("")
+            );
+            order.setStatus(statusRepository.findByStatusName(longStringEntry.getValue())
+                    .orElseThrow(()->new ResourceNotFoundException("")));
+            orderRepository.save(order);
+        }
     }
 
 }
