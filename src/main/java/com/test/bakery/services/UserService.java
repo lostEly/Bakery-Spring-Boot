@@ -106,14 +106,15 @@ public class UserService {
         return map;
     }
 
-    public void editOrderStatus(Map<Long, String> orderStatusMap)
+    public void editOrderStatus(Map<String, String> orderStatusMap)
     {
-        for (Map.Entry<Long, String> longStringEntry : orderStatusMap.entrySet()) {
-            Order order = orderRepository.findOrderByOrderId(longStringEntry.getKey()).orElseThrow(
-                    () -> new ResourceNotFoundException("")
+        logger.info(String.valueOf(orderStatusMap.isEmpty()));
+        for (Map.Entry<String, String> longStringEntry : orderStatusMap.entrySet()) {
+            Order order = orderRepository.findOrderByOrderId(Long.valueOf(longStringEntry.getKey())).orElseThrow(
+                    () -> new ResourceNotFoundException("order with " + longStringEntry.getKey() + "not found")
             );
             order.setStatus(statusRepository.findByStatusName(longStringEntry.getValue())
-                    .orElseThrow(()->new ResourceNotFoundException("")));
+                    .orElseThrow(()->new ResourceNotFoundException("status with " + longStringEntry.getKey() + "not found")));
             orderRepository.save(order);
         }
     }

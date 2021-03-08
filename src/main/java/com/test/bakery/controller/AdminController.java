@@ -9,6 +9,8 @@ import com.test.bakery.model.Product;
 import com.test.bakery.model.Userr;
 import com.test.bakery.services.ProductService;
 import com.test.bakery.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,7 @@ import java.util.Map;
 public class AdminController {
     private final ProductService productService;
     private final UserService userService;
+    private static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     public AdminController(ProductService productService, UserService userService) {
         this.productService = productService;
@@ -53,7 +56,7 @@ public class AdminController {
         return userService.getUsersInfo();
     }
 
-    @PostMapping("user-info")
+    @PutMapping("user-info")
     public ResponseEntity<String> editOrderStatus(@RequestBody EditOrderStatusDTO  edit) {
         userService.editOrderStatus(edit.getOrderStatusMap());
         return ResponseEntity.status(HttpStatus.OK).body("Edited successfully");
