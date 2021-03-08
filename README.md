@@ -7,7 +7,7 @@ Or you can import bakery.postman_collection.json to postman where you can get al
 * add products to a product basket and remove them. Items from the basket should be stored in front-end.
 * make order by sending info about added products and the total cost.
 * register admin.
-* 
+
 ### With admin role you can:
 * edit and add products.
 * export users info to excel file.
