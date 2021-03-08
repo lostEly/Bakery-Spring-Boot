@@ -1,6 +1,6 @@
 # Bakery-Spring-Boot
 To know what is needed request body -> watch controller parameters & appropriate DTO file
-Or you can import bakery.postman_collection.json to postman where you can get all examples.
+Or you can import [postman_collection](https://github.com/lostEly/Bakery-Spring-Boot/blob/4e5adc0825c2a75314dedb17f70cf0380e8c447a/bakery.postman_collection.json) to postman where you can get all examples.
 ### In this application you can:
 * get the list of available products and search any product in database without an authorization.
 * to become user you have to register and confirm your email, after that you'll be able to get authorization token to the front-end and make orders.
