@@ -3,6 +3,7 @@ package com.test.bakery.model;
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -13,7 +14,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long orderId;
-
+    @Column(nullable = false)
     Date dateOfOrder;
     Date dateOfCompletion;
     Double totalPrice;

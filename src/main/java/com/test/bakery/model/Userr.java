@@ -3,8 +3,8 @@ package com.test.bakery.model;
 
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 
 @Data
@@ -16,14 +16,16 @@ public class Userr {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userrId;
 
+    @Column(nullable = false)
     private String userrName;
 
+    @Column(nullable = false)
     private String userrLastName;
 
-    @Column
+    @Column(unique = true, nullable = false)
     private String login;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne
@@ -33,7 +35,7 @@ public class Userr {
     public Userr() {
         this.setEnabled(false);
     }
-
+    @Column(nullable = false)
     private String email;
 
     private Boolean enabled;

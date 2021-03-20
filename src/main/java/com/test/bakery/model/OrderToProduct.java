@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -15,8 +16,9 @@ public class OrderToProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long otpId;
-
+    @Column(nullable = false)
     int amount;
+    @Column(nullable = false)
     Double cost;
 
     @ManyToOne

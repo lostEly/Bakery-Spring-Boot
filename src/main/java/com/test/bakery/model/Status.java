@@ -13,6 +13,6 @@ public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long statusId;
-
+    @Column(nullable = false)
     String statusName;
 }

@@ -1,24 +1,25 @@
 package com.test.bakery.security_controller;
-import lombok.Data;
 
+import lombok.Data;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Data
 public class RegistrationRequest {
 
-    @NotEmpty
+    @NotEmpty(message = "login is mandatory")
     private String login;
 
-    @NotEmpty
+    @NotEmpty(message = "password is mandatory")
     private String password;
 
-    @NotEmpty
+    @NotEmpty(message = "userName is mandatory")
     private String userName;
 
-    @NotEmpty
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "email is not valid")
     private String email;
 
-    @NotEmpty
+    @NotEmpty(message = "userLastName is mandatory")
     private String userLastName;
 
 }

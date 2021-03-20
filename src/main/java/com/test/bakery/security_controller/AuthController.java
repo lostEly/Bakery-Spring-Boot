@@ -2,15 +2,10 @@ package com.test.bakery.security_controller;
 
 import com.test.bakery.config.jwt.JwtProvider;
 import com.test.bakery.exceptions.AccountIsNotConfirmed;
-import com.test.bakery.mail_cfg.EmailCfg;
-import com.test.bakery.mail_cfg.Feedback;
-import com.test.bakery.mail_cfg.SendEmailService;
 import com.test.bakery.model.Userr;
-import com.test.bakery.repository.VerificationTokenRepository;
 import com.test.bakery.services.UserService;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import javax.mail.*;
 import javax.validation.Valid;
 
 @RestController
@@ -25,7 +20,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public RegisterResponse registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
+    public RegisterResponse registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
         userService.registerUser(registrationRequest, "user");
         return new RegisterResponse("Account confirmation message has been sent to your email");
     }

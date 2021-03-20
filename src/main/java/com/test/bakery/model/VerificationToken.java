@@ -13,9 +13,10 @@ public class VerificationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long tokenId;
-
+    @Column(nullable = false)
     private String token;
 
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 

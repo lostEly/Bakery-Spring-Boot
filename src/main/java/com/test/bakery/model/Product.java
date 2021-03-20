@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -13,12 +14,16 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
+    @Column(nullable = false)
     private String productName;
+    @Column(nullable = false)
     private Double price;
+    @Column(nullable = false)
     private String description;
+    @Column(nullable = false)
     private Integer count;
 
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "text", nullable = false)
     private String image;
 
     public Product() {

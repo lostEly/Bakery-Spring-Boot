@@ -87,10 +87,7 @@ public class UserService {
 
     public Userr findByLoginAndPassword(String login, String password) {
         Userr userr = findByLogin(login);
-        if (userr != null && passwordEncoder.matches(password, userr.getPassword())) {
-            return userr;
-        }
-        return null;
+        return userr != null && passwordEncoder.matches(password, userr.getPassword())?userr:null;
     }
 
     public Map<Userr,List<Order>> getUsersInfo()

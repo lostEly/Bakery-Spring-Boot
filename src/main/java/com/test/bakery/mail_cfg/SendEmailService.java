@@ -30,7 +30,7 @@ public class SendEmailService {
     public void sendEmail(String to, String topic) throws MessagingException {
         String token = createToken(to);
         Context context = new Context();
-        context.setVariable("token", "http://localhost:8080/registration-complete?token=" + token); // http://localhost:3000/
+        context.setVariable("token", "http://localhost:8080/registration-complete?token=" + token);
         String process = templateEngine.process("tst", context);
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
@@ -48,10 +48,4 @@ public class SendEmailService {
         verificationTokenRepository.save(verificationToken);
         return verificationToken.getToken();
     }
-
-    /* создается токен
-    при регистрации юзера токен отправляется на почту в виде ссылки на страницу с подтверждением
-    длительность токена 24 часа
-    после истечения токена ????????????
-    */
 }

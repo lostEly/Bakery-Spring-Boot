@@ -17,7 +17,4 @@ public interface UserrRepository extends JpaRepository<Userr, Long> {
     Optional<Userr> findByLogin(String login);
 
     Optional<Userr> findByEmail (String email);
-
-//    @Query(value="select * from userr where userr_id = :id", nativeQuery=true)
-//    Optional<Userr> findByUserrId(@Param("id") Long id);
 }
